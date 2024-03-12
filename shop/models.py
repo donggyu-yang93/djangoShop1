@@ -54,3 +54,27 @@ class Product(models.Model):
             self.slug = slugify(self.name, allow_unicode=True) # allow_unicode 있어야 한글 안깨지고 slug가 됨
         super(Product, self).save(*args, **kwargs)
 
+
+class Comment(models.Model):
+    post = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')  # comments로 써야 해.
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_comment')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    voter = models.ManyToManyField(User, related_name='comment_votes')  # 댓글 추천
+
+    @property
+    def get_count(self):
+        return Comment.objects.filter(post=self.post).count()
+
+    def __str__(self):
+        return f'{self.author}::{self.content}'
+
+    def get_absolute_url(self):
+        return f'{self.post.get_absolute_url()}#comment-{self.pk}'
+
+    def get_avatar_url(self):
+        return f'https://doitdjango.com/avatar/id/1525/b75de63e8975ed88/svg/{self.author.email}.png'
+
+    def comment_count(self):
+        return Comment.objects.filter(post=self.post).count()

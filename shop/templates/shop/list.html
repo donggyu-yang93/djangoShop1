@@ -38,7 +38,7 @@
                         <h5 class="card-title">{{product.name}}</h5>
                         <p class="card-text">{{product.description}}
                             <span class="badge bg-secondary">{{product.price}}</span></p>
-                        <a href="{{product.get_absolute_url}}" class="btn btn-primary">상세보기</a>
+                        <a href="{% url 'shop:product_detail' product.pk %}" class="btn btn-primary">상세보기</a>
                     </div>
                 </div>
             </div>

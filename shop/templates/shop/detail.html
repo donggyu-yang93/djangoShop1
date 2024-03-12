@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}Product Detail
 {% endblock %}
 
@@ -23,4 +25,94 @@
         <h5><span class="badge badge-secondary">설명</span> {{product.description|linebreaks}} </h5>
     </div>
 </div>
+
+<!-- Comments section-->
+<div id="comment-area">
+    <!-- Comments Form -->
+    <div class="card my-4">
+        <h5 class="card-header">리뷰를 남겨주세요.</h5>
+        <div class="card-body">
+            {% if user.is_authenticated %}
+            <form id="comment-form" method="POST" action="{{ post.get_absolute_url }}new_comment/">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ comment_form | crispy }}
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top:10px;">리뷰 등록</button>
+            </form>
+            {% else %}
+            <div class="card my-4">
+                <a role="button" class="btn btn-outline-dark btn-block" href="#" data-toggle="modal" data-target="#loginModal">리뷰를 남기시려면 로그인을 해야 합니다.</a>
+            </div>
+            {% endif %}
+        </div>
+    </div><hr>
+
+    {% if product.comments.all.exists %}
+    {% for comment in product.comments.iterator %}
+    <!-- Single Comment -->
+    <div class="media mb-4" id="comment-{{ comment.pk }}">
+        <div class="media-body">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <img class="d-flex mr-3 rounded-circle" src="{{ comment.get_avatar_url }}" alt="{{ comment.author }}" width="42px" style="margin-bottom:10px; margin-right:15px;">
+                    <h4 class="d-inline mt-0 mr-3">{{ comment.author.username }}</h4>
+                    <small class="text-muted mr-3" style="font-size:0.6em">{{ comment.created_at }}</small>
+                </div>
+
+                <div class="float-end">
+                    <a href="javascript:void(0)" data-uri="{% url 'shop:vote_comment' comment.id %}"
+                       class="recommend btn btn-sm btn-outline-secondary"> 추천
+                        <span class="badge rounded-pill bg-success">{{ comment.voter.count }}</span>
+                    </a>
+                    {% if user.is_authenticated and comment.author == user %}
+                    <a role="button"
+                       class="btn btn-sm btn-info"
+                       id="comment-{{ comment.pk }}-update-btn"
+                       href="/shop/update_comment/{{ comment.pk }}/">
+                        수정
+                    </a>
+                    <a role="button"
+                       href="#"
+                       id="comment-{{ comment.pk }}-delete-modal-btn"
+                       class="btn btn-sm btn-danger"
+                       data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
+                        삭제
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <p>{{ comment.content | linebreaks }}</p>
+            {% if comment.created_at != comment.modified_at %}
+            <p class="text-muted mb-0"><small>Updated: {{ comment.modified_at }}</small></p>
+            {% endif %}
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <del>{{ comment | linebreaks }}</del>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a role="button" class="btn btn-danger" href="{% url 'shop:delete_comment' comment.pk %}">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div><hr>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% endblock %}

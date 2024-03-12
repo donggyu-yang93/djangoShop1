@@ -4,11 +4,18 @@ from .views import *
 
 app_name ='shop'
 urlpatterns = [
-    path('', product_in_category, name='product_all'),
+    path('', ProductList.as_view(), name='product_all'),
     path('upload/', ProductUploadView.as_view(), name='product_upload'),
     path('delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
     path('update/<int:pk>', ProductUpdateView.as_view(), name='product_update'),
-    path('<slug:category_slug>/', product_in_category, name='product_in_category'),
-    path('<int:id>/<product_slug>/', product_detail, name='product_detail'),
+    path('update_comment/<int:pk>/', CommentUpdate.as_view(), name='comment_update'),
+    path('<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('<slug:category_slug>/', ProductList.as_view(), name='product_in_category'),
+
+
+
+    path('<int:pk>/new_comment/', new_comment),
+    path('delete_comment/<int:pk>/', delete_comment, name='delete_comment'),
+    path('vote_comment/<int:comment_pk>/', comment_vote, name='vote_comment'),
 
 ]

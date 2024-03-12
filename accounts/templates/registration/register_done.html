@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}- 회원가입 완료{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 panel nanel-default">
+        <div class="alert alert-info">회원가입이 완료되었습니다. 환영합니다 {{new_user.username}}님</div>
+        <form action="" method="post">
+            {{form.as_p}}
+            {% csrf_token %}
+            <form action="{% url 'accounts:login' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">로그인하기</button>
+        </form>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}

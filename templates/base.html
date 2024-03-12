@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <link href="{% static 'shop/bootstrap/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <!-- Popper.js and Bootstrap.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
@@ -14,10 +16,35 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- jQuery -->
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/320e17fa54.js" crossorigin="anonymous"></script>
+    <script>
+<!--댓글창 추천-->
+  $(document).ready(function() {
+    $(".recommend").click(function() {
+      var dataUri = $(this).data("uri");
+      var votesBadge = $(this).find(".bg-success");
+
+      $.ajax({
+        url: dataUri,
+        method: "POST",
+        data: {
+          csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function(response) {
+          if (response.status == "success") {
+            var newVotes = response.votes;
+            votesBadge.text(newVotes);
+          } else {
+            alert(response.message);
+          }
+        }
+      });
+    });
+  });
+
     </script>
+
     {% block script %}
     {% endblock %}
 
@@ -45,7 +72,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart:detail' %}">장바구니
                         {% if cart|length > 0 %}
-                            {{cart.get_total_price}} 원 {{cart|length}} 개
+                        {{cart.get_total_price}} 원 {{cart|length}} 개
                         {% else %}
                         : 비어있음
                         {% endif %}
@@ -58,13 +85,19 @@
             </form>
             <ul class="navbar-nav ml-auto mx-3">
                 {% if user.is_authenticated %}
-                    {% if user %}
-                        <p>{{ user.username }}</p>
-                        <a href="/accounts/logout">로그아웃</a>
-                    {% endif %}
+                {% if user %}
+                <h3>{{ user.username }}님</h3>
+                <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">로그아웃</button>
+                </form>
+                {% endif %}
                 {% else %}
+                <li class="navbar-nav ml-auto" style="margin-right:10px;">
+                    <a class="btn btn-primary" href="/accounts/login">로그인</a>
+                </li>
                 <li class="navbar-nav ml-auto">
-                    <a class="nav-link" href="/accounts/login" >로그인</a>
+                    <a href="/accounts/register" class="btn btn-secondary">회원가입</a>
                 </li>
                 {% endif %}
 
