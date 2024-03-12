@@ -10,15 +10,17 @@
     </div>
     <div class="col-8">
         <h1 class="display-6">{{product.name}}</h1>
-        <p><span class="badge bg-secondary">Price</span> {{product.price}} </p>
+        <a href="/update/{{ product.pk }}" class="btn btn-outline-success btn-sm float-right">수정하기</a>
+        <a href="/delete/{{ product.pk }}" class="btn btn-outline-danger btn-sm float-right">삭제하기</a>
+        <p><span class="badge bg-secondary">가격</span> {{product.price}} 원</p>
 
         <form action="{% url 'cart:product_add' product.id %}" method="post">
-            {{add_to_cart}}
+            <p>수량:</p>{{add_to_cart.quantity}}
             {% csrf_token %}
-            <input type="submit" class="btn btn-primary btn-sm" value="Add to Cart">
+            <input type="submit" class="btn btn-primary btn-sm" value="장바구니에 추가">
         </form>
 
-        <h5><span class="badge badge-secondary">Description</span> {{product.description|linebreaks}} </h5>
+        <h5><span class="badge badge-secondary">설명</span> {{product.description|linebreaks}} </h5>
     </div>
 </div>
 {% endblock %}
