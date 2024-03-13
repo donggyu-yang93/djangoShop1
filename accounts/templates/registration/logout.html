@@ -6,7 +6,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8 panel nanel-default">
         <div class="alert alert-danger">로그아웃 되었습니다.</div>
-        <form action="{% url 'accounts:login' %}" method="post">
+        <form action="{% url 'accounts1:login' %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">로그인하기</button>
         </form>

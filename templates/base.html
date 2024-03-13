@@ -43,6 +43,7 @@
     });
   });
 
+
     </script>
 
     {% block script %}
@@ -50,6 +51,18 @@
 
     {% block style %}
     {% endblock %}
+
+    <style>
+    .zoom {
+    transition: transform .2s; /* 애니메이션 효과 */
+    margin: 0 auto;
+    }
+
+    .zoom:hover {
+    transform: scale(1.5); /* 이미지를 1.5배로 확대 */
+    }
+
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -87,17 +100,17 @@
                 {% if user.is_authenticated %}
                 {% if user %}
                 <h3>{{ user.username }}님</h3>
-                <form action="{% url 'accounts:logout' %}" method="post">
+                <form action="{% url 'accounts1:logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-secondary">로그아웃</button>
                 </form>
                 {% endif %}
                 {% else %}
                 <li class="navbar-nav ml-auto" style="margin-right:10px;">
-                    <a class="btn btn-primary" href="/accounts/login">로그인</a>
+                    <a class="btn btn-primary" href="/accounts1/login">로그인</a>
                 </li>
                 <li class="navbar-nav ml-auto">
-                    <a href="/accounts/register" class="btn btn-secondary">회원가입</a>
+                    <a href="/accounts1/register" class="btn btn-secondary">회원가입</a>
                 </li>
                 {% endif %}
 
@@ -110,4 +123,6 @@
     {% endblock %}
 </div>
 </body>
+
+{% include 'shop/footer.html' %}
 </html>

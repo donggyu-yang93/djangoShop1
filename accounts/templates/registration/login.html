@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+{% load static %}
 {% block title %}- Login{% endblock %}
 
 {% block content %}
@@ -11,6 +13,17 @@
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="로그인">
         </form>
+        <div class="d-flex justify-content-center mb-3">
+                <p class="mb-0">처음이신가요??</p>
+                <a role="button" class="btn btn-secondary btn-sm ml-2" href="/accounts1/register">회원가입</a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <h5 class="text-center mb-2">SNS로 시작하기</h5>
+                <div class="d-flex justify-content-center">
+                    <a href="{% provider_login_url 'kakao' %}" class="mx-1"><img src="{% static 'accounts/images/kakao_icon.png' %}" alt="카카오 로그인" width="32" height="32"></a>
+                    <a href="{% provider_login_url 'naver' %}" class="mx-1"><img src="{% static 'accounts/images/naver_icon.png' %}" alt="네이버 로그인" width="32" height="32"></a>
+                </div>
+            </div>
     </div>
     <div class="col-md-2"></div>
 </div>

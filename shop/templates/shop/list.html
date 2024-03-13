@@ -8,9 +8,9 @@
     <div class="col-2">
         <div class="list-group">
             <a href="/" class="list-group-item {%if not current_category %}active{% endif %}">All</a>
-            {% for c in categories %}
-            <a href="{{c.get_absolute_url}}"
-               class="list-group-item {%if current_category.slug == c.slug %}active{% endif %}">{{c.name}}</a>
+            {% for category in categories %}
+            <a href="{% url 'shop:category_page' category.slug %}"
+               class="list-group-item {%if current_category.slug == category.slug %}active{% endif %}">{{category.name}}</a>
             {% endfor %}
         </div>
     </div>
@@ -46,4 +46,5 @@
         </div>
     </div>
 </div>
+{% include 'shop/pagination.html' %}
 {% endblock %}
