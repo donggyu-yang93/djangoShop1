@@ -26,7 +26,7 @@ class Product(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='author_question')
     image = models.ImageField(upload_to='shop/products/%Y/%m/%d', blank=True)
     description = models.TextField(blank=True)
-    # 위는 상세페이지 설명 밑은su를빠르게한다?
+    # 위는 상세페이지 설명 검색용. 검색하면 나오는 요약정보.
     meta_description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2) # 소수점 두개 포함해서 10자리 숫자임
     stock = models.PositiveIntegerField()
@@ -46,7 +46,7 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('shop:product_detail', args=[self.id, self.slug])
+        return reverse('shop:product_detail', args=[self.id])
 
     def save(self, *args, **kwargs):
         if not self.slug:

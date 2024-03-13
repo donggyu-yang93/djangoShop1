@@ -10,17 +10,28 @@ from cart.forms import AddProductForm
 class ProductList(ListView):
     model = Product
     template_name = 'shop/list.html'
-    ordering = '-pk'
     paginate_by = 6
 
     def get_queryset(self):
         self.current_category = None
         category_slug = self.kwargs.get('slug')
+        sort = self.request.GET.get('sort', '')
+
         if category_slug:
             self.current_category = get_object_or_404(Category, slug=category_slug)
-            return Product.objects.filter(category=self.current_category, available_display=True)
-        return Product.objects.filter(available_display=True)
+            queryset = Product.objects.filter(category=self.current_category, available_display=True)
+        else:
+            queryset = Product.objects.filter(available_display=True)
 
+        # 정렬 로직 추가
+        if sort == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort == 'date':
+            queryset = queryset.order_by('-created')
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,6 +94,7 @@ class ProductUpdateView(UpdateView):
     model = Product
     fields = ['name', 'image', 'description', 'meta_description', 'price', 'stock']
     template_name = 'shop/update.html'
+
 
 
 
