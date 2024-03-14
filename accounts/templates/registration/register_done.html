@@ -9,7 +9,7 @@
         <form action="" method="post">
             {{form.as_p}}
             {% csrf_token %}
-            <form action="{% url 'accounts:login' %}" method="post">
+            <form action="/accounts1/login" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">로그인하기</button>
         </form>
