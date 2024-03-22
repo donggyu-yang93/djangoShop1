@@ -103,13 +103,9 @@
                 {% if user.is_authenticated %}
                 {% if user %}
                 <h3>{{ user.username }}님</h3>
-                <form action="{% url 'accounts1:update' %}" method="post" style="margin-left: 10px; margin-right: 10px;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary">회원정보수정</button>
-                </form>
                 <form action="{% url 'accounts1:logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">로그아웃</button>
+                    <button type="submit" class="btn btn-secondary">로그아웃</button>
                 </form>
                 {% endif %}
                 {% else %}
@@ -129,8 +125,7 @@
     {% block content %}
     {% endblock %}
 </div>
-
-{% include 'shop/footer.html' %}
 </body>
 
+{% include 'shop/footer.html' %}
 </html>
