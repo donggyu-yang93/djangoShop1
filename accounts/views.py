@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from .forms import ResigterForm
-# Create your views here.
+from django.shortcuts import render, redirect
+from .forms import ResigterForm, CustomUserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
 # CRUD
 
 def register(request):
@@ -15,3 +17,32 @@ def register(request):
         # 회원가입 입력하는 상황
         user_form = ResigterForm()
     return render(request, 'registration/register.html', {'form':user_form})
+
+def update(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        else:
+            form = CustomUserChangeForm(instance=request.user)
+        context = {'form': form}
+        return render(request, 'registration/update.html', context)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            # 암호가 변경되어도 로그아웃 되지 않음
+            update_session_auth_hash(request, form.user)
+            return redirect('/')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {'form':form,}
+    return render(request, 'registration/change_password.html', context)
+
+def delete(request):
+    user = request.user
+    user.delete()
+    return redirect('/')
