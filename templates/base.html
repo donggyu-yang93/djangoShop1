@@ -129,8 +129,52 @@
     {% block content %}
     {% endblock %}
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">할인공지예시</h4>
+      </div>
+      <div class="modal-body">
+        <img src="{% static 'shop/images/sale_sample.png' %}" alt="공지사항 이미지" width="400" height="800">
+      </div>
+      <div class="modal-footer">
+        <div id="check">
+          <input type="checkbox" value="checkbox" id='chkbox'>
+          <label for="chkbox">&nbsp&nbsp오늘 하루동안 보지 않기</label>
+        </div>
+        <div id="close">
+          <a href="javascript:closePop();">닫기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% include 'shop/footer.html' %}
 </body>
+<script>
+$(document).ready(function() {
+    var cookiedata = document.cookie;
+    if (cookiedata.indexOf("popup=done") < 0){
+        $("#myModal").modal('show');
+    }
+});
+
+function setCookie( name, value, exDay ) {
+    var todayDate = new Date();
+    todayDate.setDate( todayDate.getDate() + exDay );
+    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+function closePop() {
+    //하루동안 보지 않기
+    if (document.getElementById('chkbox').checked){
+        setCookie( "popup", "done" , 1 ); // 저장될 쿠키명 , 쿠키 value값 , 기간
+    }
+    $("#myModal").modal('hide');
+}
+</script>
 
 </html>
