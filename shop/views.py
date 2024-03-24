@@ -35,9 +35,16 @@ class ProductList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = context.get('object_list')
+        products = context.get('object_list')
+        for product in products:
+            if product.discount_percentage > 0:
+                product.discounted_price = product.price - (product.price * product.discount_percentage / 100)
+            else:
+                product.discounted_price = product.price
+        context['products'] = products  # 수정된 products 리스트를 다시 컨텍스트에 할당
         context['categories'] = Category.objects.all()
         return context
+
 
 class CategoryPostList(ProductList):
     def get_queryset(self):

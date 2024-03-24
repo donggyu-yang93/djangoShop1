@@ -29,6 +29,7 @@ class Product(models.Model):
     # 위는 상세페이지 설명 검색용. 검색하면 나오는 요약정보.
     meta_description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2) # 소수점 두개 포함해서 10자리 숫자임
+    discount_percentage = models.DecimalField(max_digits=4, decimal_places=2, default=0)  # 할인율 필드 추가
     stock = models.PositiveIntegerField()
     available_display = models.BooleanField('Display', default=True)
     available_order = models.BooleanField('Order', default=True)
