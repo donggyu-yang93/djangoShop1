@@ -54,6 +54,9 @@ class Product(models.Model):
             self.slug = slugify(self.name, allow_unicode=True) # allow_unicode 있어야 한글 안깨지고 slug가 됨
         super(Product, self).save(*args, **kwargs)
 
+    def review_count(self):
+        return self.comments.count()
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')  # comments로 써야 해.

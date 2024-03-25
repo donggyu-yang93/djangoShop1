@@ -4,6 +4,15 @@
 {% endblock %}
 
 {% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shop in style</h1>
+            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+        </div>
+    </div>
+</header>
+<br>
 <div class="row">
     <div class="col-2">
         <div class="list-group">
@@ -27,10 +36,12 @@
                 <a class="btn btn-info btn-sm" href="?slug={{ current_category.slug }}&sort=price_asc">낮은 가격순</a>
                 <a class="btn btn-info btn-sm" href="?slug={{ current_category.slug }}&sort=price_desc">높은 가격순</a>
                 <a class="btn btn-info btn-sm" href="?slug={{ current_category.slug }}&sort=date">최신순</a>
+                <a class="btn btn-info btn-sm" href="?slug={{ current_category.slug }}&sort=reviews">리뷰 많은 순</a>
                 {% else %}
                 <a class="btn btn-info btn-sm" href="?sort=price_asc">낮은 가격순</a>
                 <a class="btn btn-info btn-sm" href="?sort=price_desc">높은 가격순</a>
                 <a class="btn btn-info btn-sm" href="?sort=date">최신순</a>
+                <a class="btn btn-info btn-sm" href="?sort=reviews">리뷰 많은 순</a>
                 {% endif %}
             </div>
 
@@ -50,16 +61,18 @@
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">
                             {% if product.discount_percentage > 0 %}
-                            <span class="badge bg-success">{{ product.discount_percentage|floatformat:"0" }}% 할인</span>
+                            <span class="badge bg-success">{{ product.discount_percentage|floatformat:"0" }}%</span>
                             <span class="product_base_price">
                             <del>{{ product.price|floatformat:"0" }}원</del>
                             </span><br>
                             <small class="product_discounted_price">{{ product.discounted_price|floatformat:"0" }}원</small>
                             {% else %}
-                            <span class="product_base_price">{{ product.price|floatformat:"0" }}원</span>
+                            <span class="product_discounted_price">{{ product.price|floatformat:"0" }}원</span>
                             {% endif %}
                         </p>
-                        <a href="{% url 'shop:product_detail' product.pk %}" class="btn btn-primary">상세보기</a>
+                        <p>리뷰수 : {{ product.review_count }}</p>
+                        <a href="{% url 'shop:product_detail' product.pk %}"
+                           class="btn btn-outline-dark mt-auto">상세보기</a>
                     </div>
                 </div>
             </div>
@@ -67,5 +80,6 @@
         </div>
     </div>
 </div>
+<br>
 {% include 'shop/pagination.html' %}
 {% endblock %}

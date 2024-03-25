@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.shortcuts import redirect
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from .models import *
 from .forms import CommentForm
 from cart.forms import AddProductForm
@@ -30,7 +31,8 @@ class ProductList(ListView):
             queryset = queryset.order_by('-price')
         elif sort == 'date':
             queryset = queryset.order_by('-created')
-
+        elif sort == 'reviews':
+            queryset = queryset.annotate(review_count=Count('comments')).order_by('-review_count')
         return queryset
 
     def get_context_data(self, **kwargs):
