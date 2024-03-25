@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Category Page
 {% endblock %}
 
 {% block content %}
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shop in style</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-        </div>
+<header class="bg-white py-5">
+    <div class="slides fade">
+<!--        <a href="">-->
+            <img src="{% static 'shop/images/Sale_sample(1920450).jpg' %}" style="width:100%; height:450px;">
+<!--        </a>-->
+    </div>
+    <div class="slides fade">
+<!--        <a href="">-->
+            <img src="{% static 'shop/images/paldo.jpg' %}" style="width:100%; height:450px;">
+<!--        </a>-->
     </div>
 </header>
 <br>
