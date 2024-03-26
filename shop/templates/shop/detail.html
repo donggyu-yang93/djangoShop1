@@ -14,8 +14,17 @@
         <h1 class="display-6">{{product.name}}</h1>
         <a href="/update/{{ product.pk }}" class="btn btn-outline-success btn-sm float-right">수정하기</a>
         <a href="/delete/{{ product.pk }}" class="btn btn-outline-danger btn-sm float-right">삭제하기</a>
-        <p><span class="badge bg-secondary">가격</span> {{product.price}} 원</p>
-
+        <p class="card-text">
+            {% if product.discount_percentage > 0 %}
+            <span class="badge bg-success">{{ product.discount_percentage|floatformat:"0" }}%</span>
+            <span class="product_base_price">
+                            <del>{{ product.price|floatformat:"0" }}원</del>
+                            </span><br>
+            <small class="product_discounted_price">{{ product.get_discounted_price|floatformat:"0" }}원</small>
+            {% else %}
+            <span class="product_discounted_price">{{ product.price|floatformat:"0" }}원</span>
+            {% endif %}
+        </p>
         <form action="{% url 'cart:product_add' product.id %}" method="post">
             <p>수량:</p>{{add_to_cart.quantity}}
             {% csrf_token %}
@@ -42,11 +51,13 @@
             </form>
             {% else %}
             <div class="card my-4">
-                <a role="button" class="btn btn-outline-dark btn-block" href="#" data-toggle="modal" data-target="#loginModal">리뷰를 남기시려면 로그인을 해야 합니다.</a>
+                <a role="button" class="btn btn-outline-dark btn-block" href="#" data-toggle="modal"
+                   data-target="#loginModal">리뷰를 남기시려면 로그인을 해야 합니다.</a>
             </div>
             {% endif %}
         </div>
-    </div><hr>
+    </div>
+    <hr>
 
     {% if product.comments.all.exists %}
     {% for comment in product.comments.iterator %}
@@ -55,7 +66,8 @@
         <div class="media-body">
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center;">
-                    <img class="d-flex mr-3 rounded-circle" src="{{ comment.get_avatar_url }}" alt="{{ comment.author }}" width="42px" style="margin-bottom:10px; margin-right:15px;">
+                    <img class="d-flex mr-3 rounded-circle" src="{{ comment.get_avatar_url }}"
+                         alt="{{ comment.author }}" width="42px" style="margin-bottom:10px; margin-right:15px;">
                     <h4 class="d-inline mt-0 mr-3">{{ comment.author.username }}</h4>
                     <small class="text-muted mr-3" style="font-size:0.6em">{{ comment.created_at }}</small>
                 </div>
@@ -89,7 +101,8 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog"
+                 aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -110,7 +123,8 @@
             </div>
 
         </div>
-    </div><hr>
+    </div>
+    <hr>
     {% endfor %}
     {% endif %}
 </div>

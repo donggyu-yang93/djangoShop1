@@ -16,7 +16,8 @@ urlpatterns = [
 
 
 
-
+    path('food', foodDiscount, name='food'),
+    path('paldo', paldoDiscount, name='paldo'),
     path('<int:pk>/new_comment/', new_comment),
     path('delete_comment/<int:pk>/', delete_comment, name='delete_comment'),
     path('vote_comment/<int:comment_pk>/', comment_vote, name='vote_comment'),

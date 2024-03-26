@@ -47,6 +47,23 @@ class ProductList(ListView):
         context['categories'] = Category.objects.all()
         return context
 
+def paldoDiscount(requrest):
+    products = Product.objects.filter(available_display=True, name__icontains='팔도')
+    return render(requrest, 'shop/paldo.html',{'products':products})
+
+def foodDiscount(requrest, category_slug='식품'):
+    categories = Category.objects.all()
+    current_category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(available_display=True, category=current_category)
+
+    return render(requrest, 'shop/food.html',
+                  {
+                      'current_category':current_category,
+                      'categories':categories,
+                      'products':products
+
+                  })
+
 
 class CategoryPostList(ProductList):
     def get_queryset(self):

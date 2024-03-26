@@ -4,13 +4,15 @@
 {% block content %}
 <div class="row">
     <div class="col-md-2"></div>
-    <div class="col-md-8 panel nanel-default">
+    <div class="col-md-8 panel panel-default">
         <div class="alert alert-danger">로그아웃 되었습니다.</div>
-        <form action="{% url 'accounts1:login' %}" method="post">
+        <form action="{% url 'accounts1:login' %}" method="post" style="display: inline-block; margin-right: 10px;">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">로그인하기</button>
         </form>
+        <a href="/" class="btn btn-primary" style="display: inline-block;">홈으로</a>
     </div>
     <div class="col-md-2"></div>
 </div>
+
 {% endblock %}
