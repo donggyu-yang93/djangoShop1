@@ -96,27 +96,27 @@ WSGI_APPLICATION = "config.wsgi.application"
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'shop',
-#         'USER': os.environ.get('MYSQL_USER', 'default_user'),
-#         'PASSWORD': os.environ.get('MYSQL_PASSWORD', 'default_password'),
-#         'HOST': os.environ.get('MYSQL_HOST', 'localhost'),
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'shop',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'USER': os.environ.get('MYSQL_USER', 'default_user'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', 'default_password'),
+        'HOST': os.environ.get('MYSQL_HOST', 'localhost'),
+        'PORT': '3309',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'shop',
+#         'USER': 'root',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
