@@ -17,7 +17,7 @@
         <tbody>
         {% for list in lists %}
         <tr>
-            <td><a href="{% url 'cs_detail' list.pk %}">{{ list.title }}</a></td>
+            <td><a href="{% url 'customerService:detail' pk=list.pk %}">{{ list.title }}</a></td>
             <td>{{ list.created_at|date:"Y-m-d H:i" }}</td>
             <td>{{ list.author.username }}</td>
         </tr>
@@ -25,7 +25,7 @@
         </tbody>
     </table>
     {% if user.is_authenticated %}
-    <a class="btn btn-info btn-sm" href="/upload/" role="button">
+    <a class="btn btn-info btn-sm" href="{% url 'customerService:csUpload' %}" role="button">
         <i class="fas fa-pen"></i>&nbsp;&nbsp;작성하기
     </a>
     {% endif %}

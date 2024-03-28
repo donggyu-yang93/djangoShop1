@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 문의하기
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>문의하기</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+</div>
+{% endblock %}
