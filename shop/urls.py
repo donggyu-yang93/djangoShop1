@@ -22,4 +22,5 @@ urlpatterns = [
     path('delete_comment/<int:pk>/', delete_comment, name='delete_comment'),
     path('vote_comment/<int:comment_pk>/', comment_vote, name='vote_comment'),
 
+
 ]

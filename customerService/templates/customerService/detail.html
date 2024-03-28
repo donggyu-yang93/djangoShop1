@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 문의하기
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ lists.title }}</h2>
+    <p>{{ lists.content }}</p>
+    <h3>댓글</h3>
+    {% for comment in comments %}
+    <div>
+        <strong>{{ comment.author.username }}</strong>
+        <p>{{ comment.content }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
